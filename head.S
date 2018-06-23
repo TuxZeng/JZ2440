@@ -54,6 +54,7 @@ Reset:
     
     bl  clean_bss           @ 清除bss段，未初始化或初值为0的全局/静态变量保存在bss段
 
+
     msr cpsr_c, #0xd2       @ 进入中断模式
     ldr sp, =0x31000000     @ 设置中断模式栈指针
 
@@ -77,7 +78,7 @@ HandleIRQ:
                                     @ 初始值是上面设置的4096
     
     ldr lr, =int_return             @ 设置调用IRQ_Handle函数后的返回地址  
-    ldr pc, =IRQ_Handle             @ 调用中断分发函数，在interrupt.c中
+    ldr pc, =EINT_Handle            @ 调用中断分发函数，在interrupt.c中
 int_return:
     ldmia   sp!,    { r0-r12,pc }^  @ 中断返回, ^表示将spsr的值复制到cpsr
     

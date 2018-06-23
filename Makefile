@@ -11,7 +11,7 @@ CPPFLAGS   	:= -nostdinc -I$(INCLUDEDIR)
 
 export 	CC LD AR OBJCOPY OBJDUMP INCLUDEDIR CFLAGS CPPFLAGS
 
-objs := head.o init.o nand.o interrupt.o serial.o lcddrv.o framebuffer.o lcdlib.o 1.o main.o lib/libc.a
+objs := head.o init.o nand.o interrupt.o serial.o lcddrv.o framebuffer.o lcdlib.o 1.o function.o main.o lib/libc.a
 
 lcd.bin: $(objs)
 	${LD} -Tlcd.lds -o lcd_elf $^
@@ -30,5 +30,5 @@ lib/libc.a:
 
 clean:
 	make  clean -C lib
-	rm -f lcd.bin lcd_elf lcd.dis *.o
+	rm -f lcd_elf lcd.dis *.o
 	

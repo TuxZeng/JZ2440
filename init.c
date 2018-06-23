@@ -9,6 +9,45 @@ void clock_init(void);
 void memsetup(void);
 void copy_steppingstone_to_sdram(void);
 void clean_bss(void);
+void init_irq(void);
+
+
+/*
+ * S2,S3,S4对应GPF0、GPF2、GPG3
+ */
+#define GPF0_eint     (0x2<<(0*2))
+#define GPF2_eint     (0x2<<(2*2))
+#define GPG3_eint     (0x2<<(3*2))
+
+#define GPF0_msk    (3<<(0*2))
+#define GPF2_msk    (3<<(2*2))
+#define GPG3_msk    (3<<(3*2))
+
+void init_irq( )
+{
+    // S2,S3对应的2根引脚设为中断引脚 EINT0,ENT2
+    GPFCON &= ~(GPF0_msk | GPF2_msk);
+    GPFCON |= GPF0_eint | GPF2_eint;
+
+    // S4对应的引脚设为中断引脚EINT11
+    GPGCON &= ~GPG3_msk;
+    GPGCON |= GPG3_eint;
+    
+    // 对于EINT11，需要在EINTMASK寄存器中使能它
+    EINTMASK &= ~(1<<11);
+        
+    /*
+     * 设定优先级：
+     * ARB_SEL0 = 00b, ARB_MODE0 = 0: REQ1 > REQ3，即EINT0 > EINT2
+     * 仲裁器1、6无需设置
+     * 最终：
+     * EINT0 > EINT2 > EINT11即K2 > K3 > K4
+     */
+    PRIORITY = (PRIORITY & ((~0x01) | (0x3<<7))) | (0x0 << 7) ;
+
+    // EINT0、EINT2、EINT8_23使能
+    INTMSK   &= (~(1<<0)) & (~(1<<2)) & (~(1<<5));
+}
 
 /*
  * 关闭WATCHDOG，否则CPU会不断重启
