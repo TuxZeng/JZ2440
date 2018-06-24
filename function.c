@@ -29,12 +29,12 @@ void start_irq()
 void com_test()
 {
 	GPFDAT |= (0x7<<4);   // 所有LED熄灭
-	char g='0';
+	char g;
 	ClearScr(0xf800);  // 清屏，蓝色
 	flag[0]='1';
 	printf("Input 'q' to exit.\n\r");
 	start_irq();
-	while(g != 'q')
+	while(1)
 	{
 		g = getc();
 		switch(g)
@@ -61,14 +61,7 @@ void com_test()
 			}
 
 			default:
-			{
-				if(g == 'q')
-				{
-					GPFDAT |= (0x7<<4);   // 所有LED熄灭
-					printf("%c\n\r",g);
-				}
 				break;
-			}
 		}
 	}
 	stop_irq();
