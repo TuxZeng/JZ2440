@@ -1,5 +1,6 @@
 #include "s3c24xx.h"
 #include <stdio.h>
+#include "framebuffer.h"
 
 #define	GPF4_out	(1<<(4*2))
 #define	GPF5_out	(1<<(5*2))
@@ -8,6 +9,19 @@
 #define	GPF4_msk	(3<<(4*2))
 #define	GPF5_msk	(3<<(5*2))
 #define	GPF6_msk	(3<<(6*2))
+
+
+void stop_irq()
+{
+	// EINT0、EINT2、EINT8_23不使能
+    INTMSK   |= (1<<0) | (1<<2) | (1<<5);
+}
+
+void start_irq()
+{
+	// EINT0、EINT2、EINT8_23使能
+    INTMSK   &= (~(1<<0)) & (~(1<<2)) & (~(1<<5));
+}
 
 void init_led()
 {
@@ -89,3 +103,18 @@ void led_test()
 		}
 	}
 }
+
+void key_test()
+{
+	ClearScr(0x001f);  // 清屏，绿色
+	printf("Input 'q' to exit.\n\r");
+	start_irq();
+    char g = '0';
+	while(g != 'q')
+	{
+		g = getc();
+		printf("%c\n\r", g);
+	}
+	stop_irq();
+}
+

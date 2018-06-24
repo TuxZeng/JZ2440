@@ -45,8 +45,6 @@ void init_irq( )
      */
     PRIORITY = (PRIORITY & ((~0x01) | (0x3<<7))) | (0x0 << 7) ;
 
-    // EINT0¡¢EINT2¡¢EINT8_23Ê¹ÄÜ
-    INTMSK   &= (~(1<<0)) & (~(1<<2)) & (~(1<<5));
 }
 
 /*

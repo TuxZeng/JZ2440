@@ -37,7 +37,7 @@ int main()
             
             case 'b':
             {
-                ClearScr(0x001f);  // ÇåÆÁ£¬ÂÌÉ«
+                key_test();
                 break;
             }
 

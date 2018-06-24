@@ -1,4 +1,5 @@
 #include "s3c24xx.h"
+#include <stdio.h>
 
 void EINT_Handle()
 {
@@ -9,25 +10,34 @@ void EINT_Handle()
     {
         // S2被按下
         case 0: 
-        {   
-            GPFDAT |= (0x7<<4);   // 所有LED熄灭
+        {
+			printf("KEY S2 down.\n\r");
+            /*
+			GPFDAT |= (0x7<<4);   // 所有LED熄灭
             GPFDAT &= ~(1<<4);      // LED1点亮
+			*/
             break;
         }
         
         // S3被按下
         case 2:
         {   
-            GPFDAT |= (0x7<<4);   // 所有LED熄灭
+			printf("KEY S3 down.\n\r");
+            /*
+			GPFDAT |= (0x7<<4);   // 所有LED熄灭
             GPFDAT &= ~(1<<5);      // LED2点亮
+			*/
             break;
         }
 
         // K4被按下
         case 5:
-        {   
+        { 
+			printf("KEY S4 down.\n\r");
+			/*
             GPFDAT |= (0x7<<4);   // 所有LED熄灭
-            GPFDAT &= ~(1<<6);      // LED4点亮                
+            GPFDAT &= ~(1<<6);      // LED4点亮 
+			*/			
             break;
         }
 
