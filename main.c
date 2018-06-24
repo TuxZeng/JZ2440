@@ -26,6 +26,12 @@ int main()
 
         f = getc();
         printf("%c\n\r", f);
+		while(f != 'a' && f != 'b' && f != 'c' && f != 'd' && f != 'e')
+		{
+			printf("Error Selection!\n");
+			f = getc();
+			printf("%c\n\r", f);
+		}
         switch (f)
         {
             case 'a':
