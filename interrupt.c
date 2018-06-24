@@ -1,8 +1,11 @@
 #include "s3c24xx.h"
 #include <stdio.h>
 #include "serial.h"
+#include "framebuffer.h"
 
 extern char flag[1];
+extern const unsigned char gImage_2[261120];
+extern const unsigned char gImage_3[261120];
 
 void EINT_Handle()
 {
@@ -22,11 +25,21 @@ void EINT_Handle()
 			{
 				printf("KEY S2 down.\n\r");
 				for(i=0;i<100;i++)
-					for(j=0;j<200;j++);
+					for(j=0;j<3600;j++);
             }
-			else
+			else if(flag[0] == '1')
 			{
 				putc('1');
+			}
+			else
+			{
+				int i;
+				int cl;
+				for(i=0;i<261120;i+=2)
+				{
+					cl=((gImage_2[i]<<8)+gImage_2[i+1]);
+					PutPixel((i%960)/2, i/960, cl);
+				}
 			}
 			/*
 			GPFDAT |= (0x7<<4);   // 所有LED熄灭
@@ -42,11 +55,21 @@ void EINT_Handle()
 			{
 				printf("KEY S3 down.\n\r");
 				for(i=0;i<100;i++)
-					for(j=0;j<200;j++);
+					for(j=0;j<3600;j++);
             }
-			else
+			else if(flag[0] == '1')
 			{
 				putc('2');
+			}
+			else
+			{
+				int i;
+				int cl;
+				for(i=0;i<261120;i+=2)
+				{
+					cl=((gImage_3[i]<<8)+gImage_3[i+1]);
+					PutPixel((i%960)/2, i/960, cl);
+				}
 			}
             /*
 			GPFDAT |= (0x7<<4);   // 所有LED熄灭
@@ -62,11 +85,26 @@ void EINT_Handle()
 			{
 				printf("KEY S4 down.\n\r");
 				for(i=0;i<100;i++)
-					for(j=0;j<200;j++);
+					for(j=0;j<3600;j++);
             }
-			else
+			else if(flag[0] == '1')
 			{
 				putc('3');
+			}
+			else
+			{
+				int i=0;
+				int cl,x,y;
+				for(i=0;i<261120;i+=4)
+				{
+					cl=((gImage_2[i]<<8)+gImage_2[i+1]);
+					PutPixel((i%960)/2, i/960, cl);
+				}
+				for(i=2;i<261120;i+=4)
+				{
+					cl=((gImage_3[i]<<8)+gImage_3[i+1]);
+					PutPixel((i%960)/2, i/960, cl);
+				}
 			}
 			/*
             GPFDAT |= (0x7<<4);   // 所有LED熄灭
@@ -85,44 +123,3 @@ void EINT_Handle()
     SRCPND = 1<<oft;
     INTPND = 1<<oft;
 }
-
-
-/*
-//extern void I2CIntHandle(void);
-
-void (*isr_handle_array[50])(void);
-
-void Dummy_isr(void)
-{
-    while(1);
-}
-
-void init_irq(void)
-{
-    int i = 0;
-    for (i = 0; i < sizeof(isr_handle_array) / sizeof(isr_handle_array[0]); i++)
-    {
-        isr_handle_array[i] = Dummy_isr;
-    }
-
-    INTMOD = 0x0;	      // 所有中断都设为IRQ模式
-    INTMSK = BIT_ALLMSK;  // 先屏蔽所有中断
-
-//	isr_handle_array[ISR_IIC_OFT]  = I2CIntHandle;
-}
-
-void IRQ_Handle(void)
-{
-	unsigned long oft = INTOFFSET;
-    
-	//清中断
-	if (oft == 4)
-        EINTPEND = 1<<7;    //EINT4-7合用IRQ4，注意EINTPEND[3:0]保留未用，向这些位写入1可能导致未知结果
-	SRCPND = 1<<oft;	
-	INTPND = INTPND;	 
-    //调用中断服务程序 
-    isr_handle_array[oft]();
-}
-
-*/
-

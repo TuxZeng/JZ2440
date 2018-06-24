@@ -49,7 +49,7 @@ Reset:
                             @ 复制代码到SDRAM中
     ldr r0, =0x30000000     @ 1. 目标地址 = 0x30000000，这是SDRAM的起始地址
     mov r1, #4096           @ 2. 源地址   = 4096，运行地址在SDRAM中的代码保存在NAND Flash 4096地址开始处
-    mov r2, #500*1024        @ 3. 复制长度 = 500K，对于本实验，这是足够了
+    mov r2, #900*1024        @ 3. 复制长度 = 900K，对于本实验，这是足够了
     bl  CopyCode2SDRAM      @ 调用C函数CopyCode2SDRAM
     
     bl  clean_bss           @ 清除bss段，未初始化或初值为0的全局/静态变量保存在bss段

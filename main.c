@@ -54,21 +54,18 @@ int main()
             
             case 'd':
             {
-                ClearScr(0xffff);  // 清屏，白色
+                lcd_test();
                 break;
             }
 			
 			case 'e':
             {
-                ClearScr(0x0000);  // 清屏，黑色
+                ClearScr(0xffff);  // 清屏，白色
                 break;
             }
             
             default: 
-			{
-				printf("Error Selection!\n");
 				break;
-			}
         }
 		
 	}
