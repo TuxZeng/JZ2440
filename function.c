@@ -4,6 +4,7 @@
 #include "lcddrv.h"
 
 extern const unsigned char gImage_1[261120];
+char flag[1]={'0'};
 
 #define	GPF4_out	(1<<(4*2))
 #define	GPF5_out	(1<<(5*2))
@@ -12,6 +13,66 @@ extern const unsigned char gImage_1[261120];
 #define	GPF4_msk	(3<<(4*2))
 #define	GPF5_msk	(3<<(5*2))
 #define	GPF6_msk	(3<<(6*2))
+
+void stop_irq()
+{
+	// EINT0、EINT2、EINT8_23不使能
+    INTMSK   |= (1<<0) | (1<<2) | (1<<5);
+}
+
+void start_irq()
+{
+	// EINT0、EINT2、EINT8_23使能
+    INTMSK   &= (~(1<<0)) & (~(1<<2)) & (~(1<<5));
+}
+
+void com_test()
+{
+	GPFDAT |= (0x7<<4);   // 所有LED熄灭
+	char g='0';
+	ClearScr(0xf800);  // 清屏，蓝色
+	flag[0]='1';
+	printf("Input 'q' to exit.\n\r");
+	start_irq();
+	while(g != 'q')
+	{
+		g = getc();
+		switch(g)
+		{
+			case '1':
+			{
+				GPFDAT |= (0x7<<4);   // 所有LED熄灭
+				GPFDAT &= ~(1<<4);      // LED1点亮
+				break;
+			}
+			
+			case '2':
+			{   
+				GPFDAT |= (0x7<<4);   // 所有LED熄灭
+				GPFDAT &= ~(1<<5);      // LED2点亮
+				break;
+			}
+			
+			case '3':
+			{   
+				GPFDAT |= (0x7<<4);   // 所有LED熄灭
+				GPFDAT &= ~(1<<6);      // LED4点亮                
+				break;
+			}
+
+			default:
+			{
+				if(g == 'q')
+				{
+					GPFDAT |= (0x7<<4);   // 所有LED熄灭
+					printf("%c\n\r",g);
+				}
+				break;
+			}
+		}
+	}
+	stop_irq();
+}
 
 void show_imag()
 {
@@ -30,19 +91,6 @@ void show_imag()
 		PutPixel((i%960)/2, i/960, cl);
 	}			
     //Lcd_EnvidOnOff(0);
-}
-
-
-void stop_irq()
-{
-	// EINT0、EINT2、EINT8_23不使能
-    INTMSK   |= (1<<0) | (1<<2) | (1<<5);
-}
-
-void start_irq()
-{
-	// EINT0、EINT2、EINT8_23使能
-    INTMSK   &= (~(1<<0)) & (~(1<<2)) & (~(1<<5));
 }
 
 void init_led()
@@ -128,6 +176,7 @@ void led_test()
 
 void key_test()
 {
+	flag[0]='0';
 	ClearScr(0x001f);  // 清屏，绿色
 	printf("Input 'q' to exit.\n\r");
 	start_irq();
@@ -135,7 +184,8 @@ void key_test()
 	while(g != 'q')
 	{
 		g = getc();
-		printf("%c\n\r", g);
+		if(g == 'q')
+			printf("%c\n\r", g);
 	}
 	stop_irq();
 }

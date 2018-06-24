@@ -48,27 +48,3 @@ unsigned char getc(void)
     /* 直接读取URXH0寄存器，即可获得接收到的数据 */
     return URXH0;
 }
-
-/*
- * 判断一个字符是否数字
- */
-int isDigit(unsigned char c)
-{
-    if (c >= '0' && c <= '9')
-        return 1;
-    else
-        return 0;       
-}
-
-/*
- * 判断一个字符是否英文字母
- */
-int isLetter(unsigned char c)
-{
-    if (c >= 'a' && c <= 'z')
-        return 1;
-    else if (c >= 'A' && c <= 'Z')
-        return 1;       
-    else
-        return 0;
-}

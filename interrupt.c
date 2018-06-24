@@ -1,18 +1,34 @@
 #include "s3c24xx.h"
 #include <stdio.h>
+#include "serial.h"
+
+extern char flag[1];
 
 void EINT_Handle()
 {
     unsigned long oft = INTOFFSET;
-    unsigned long val;
+    int i,j;
+	
+	/*
+	unsigned long val;
+	*/
     
     switch( oft )
     {
         // S2被按下
         case 0: 
         {
-			printf("KEY S2 down.\n\r");
-            /*
+			if(flag[0] == '0')
+			{
+				printf("KEY S2 down.\n\r");
+				for(i=0;i<100;i++)
+					for(j=0;j<200;j++);
+            }
+			else
+			{
+				putc('1');
+			}
+			/*
 			GPFDAT |= (0x7<<4);   // 所有LED熄灭
             GPFDAT &= ~(1<<4);      // LED1点亮
 			*/
@@ -22,7 +38,16 @@ void EINT_Handle()
         // S3被按下
         case 2:
         {   
-			printf("KEY S3 down.\n\r");
+			if(flag[0] == '0')
+			{
+				printf("KEY S3 down.\n\r");
+				for(i=0;i<100;i++)
+					for(j=0;j<200;j++);
+            }
+			else
+			{
+				putc('2');
+			}
             /*
 			GPFDAT |= (0x7<<4);   // 所有LED熄灭
             GPFDAT &= ~(1<<5);      // LED2点亮
@@ -33,7 +58,16 @@ void EINT_Handle()
         // K4被按下
         case 5:
         { 
-			printf("KEY S4 down.\n\r");
+			if(flag[0] == '0')
+			{
+				printf("KEY S4 down.\n\r");
+				for(i=0;i<100;i++)
+					for(j=0;j<200;j++);
+            }
+			else
+			{
+				putc('3');
+			}
 			/*
             GPFDAT |= (0x7<<4);   // 所有LED熄灭
             GPFDAT &= ~(1<<6);      // LED4点亮 

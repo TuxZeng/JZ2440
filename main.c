@@ -42,7 +42,7 @@ int main()
 
             case 'c':
             {
-                ClearScr(0xf800);  // ÇåÆÁ£¬À¶É«
+                com_test();
                 break;
             }
             
