@@ -1,6 +1,9 @@
 #include "s3c24xx.h"
 #include <stdio.h>
 #include "framebuffer.h"
+#include "lcddrv.h"
+
+extern const unsigned char gImage_1[261120];
 
 #define	GPF4_out	(1<<(4*2))
 #define	GPF5_out	(1<<(5*2))
@@ -9,6 +12,25 @@
 #define	GPF4_msk	(3<<(4*2))
 #define	GPF5_msk	(3<<(5*2))
 #define	GPF6_msk	(3<<(6*2))
+
+void show_imag()
+{
+    Lcd_Port_Init();                     // 设置LCD引脚
+    Tft_Lcd_Init(MODE_TFT_16BIT_480272); // 初始化LCD控制器
+    Lcd_PowerEnable(0, 1);               // 设置LCD_PWREN有效，它用于打开LCD的电源
+    Lcd_EnvidOnOff(1);                   // 使能LCD控制器输出信号
+
+    ClearScr(0x0);  // 清屏，黑色
+	
+	int i;
+	int cl;
+	for(i=0;i<261120;i+=2)
+	{
+		cl=((gImage_1[i]<<8)+gImage_1[i+1]);
+		PutPixel((i%960)/2, i/960, cl);
+	}			
+    //Lcd_EnvidOnOff(0);
+}
 
 
 void stop_irq()

@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include "serial.h"
-#include "lcdlib.h"
 #include "s3c24xx.h"
 #include "function.h"
 
@@ -16,7 +15,7 @@ int main()
     while (1)
 	{
 		GPFDAT |= (0x7<<4);
-		Test_Lcd_Tft_16Bit_480272();
+		show_imag();
 		printf("\r\n##### Test Function Menu #####\r\n");
         printf("[a] LED test\n\r");
         printf("[b] KEY test\n\r");
