@@ -1,7 +1,8 @@
 #include "s3c24xx.h"
 #include <stdio.h>
 #include "serial.h"
-#include "framebuffer.h"
+#include "function.h"
+#include "lcd.h"
 
 extern char flag[1];
 extern const unsigned char gImage_2[261120];

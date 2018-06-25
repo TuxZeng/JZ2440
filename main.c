@@ -3,11 +3,8 @@
 #include "s3c24xx.h"
 #include "function.h"
 
-
-
 int main()
 {
-
     char f;
     uart0_init();   // 波特率115200，8N1(8个数据位，无校验位，1个停止位)
 	init_led();

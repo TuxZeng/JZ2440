@@ -1,7 +1,7 @@
 #include "s3c24xx.h"
 #include <stdio.h>
-#include "framebuffer.h"
-#include "lcddrv.h"
+#include "function.h"
+#include "lcd.h"
 
 #define	GPF4_out	(1<<(4*2))
 #define	GPF5_out	(1<<(5*2))
@@ -38,7 +38,8 @@ void init_led()
 void show_imag()
 {
     Lcd_Port_Init();                     // 设置LCD引脚
-    Tft_Lcd_Init(MODE_TFT_16BIT_480272); // 初始化LCD控制器
+	printf("\n.....Initializing GPIO ports.....\n");
+    Tft_Lcd_Init(); // 初始化LCD控制器
     Lcd_PowerEnable(0, 1);               // 设置LCD_PWREN有效，它用于打开LCD的电源
     Lcd_EnvidOnOff(1);                   // 使能LCD控制器输出信号
 
@@ -196,7 +197,8 @@ void com_test()
 void lcd_test()
 {
 	Lcd_Port_Init();                     // 设置LCD引脚
-    Tft_Lcd_Init(MODE_TFT_16BIT_480272); // 初始化LCD控制器
+	printf("\n.....Initializing GPIO ports.....\n");
+    Tft_Lcd_Init(); // 初始化LCD控制器
     Lcd_PowerEnable(0, 1);               // 设置LCD_PWREN有效，它用于打开LCD的电源
     Lcd_EnvidOnOff(1);                   // 使能LCD控制器输出信号
 
@@ -204,6 +206,7 @@ void lcd_test()
 	flag[0]='2';
 	start_irq();
 	printf("Input 'q' to exit.\n\r");
+	printf("hello world.\n\r");
 	char g = '0';
 	int i=0;
 	int cl,x,y;
