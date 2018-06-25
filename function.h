@@ -1,8 +1,13 @@
-void init_led(void);
-void led_test(void);
 void start_irq(void);
 void stop_irq(void);
-void key_test(void);
+void clear(void);
+void clear_output(void);
+void show_char(int x,int y,char z);
+void show_string(int y,char sentence[]);
+void init_led(void);
 void show_imag(void);
+void led_test(void);
+void key_test(void);
 void com_test(void);
 void lcd_test(void);
+void ascii_test(void);

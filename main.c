@@ -33,18 +33,21 @@ int main()
         {
             case 'a':
             {
+				ClearScr(0x07e0);  // 清屏，红色
 				led_test();
 				break;
             }
             
             case 'b':
             {
+				ClearScr(0x001f);  // 清屏，绿色
                 key_test();
                 break;
             }
 
             case 'c':
             {
+				ClearScr(0xf800);  // 清屏，蓝色
                 com_test();
                 break;
             }
@@ -57,7 +60,7 @@ int main()
 			
 			case 'e':
             {
-                ClearScr(0xffff);  // 清屏，白色
+				ascii_test();
                 break;
             }
             
