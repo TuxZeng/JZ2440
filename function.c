@@ -206,7 +206,6 @@ void lcd_test()
 	flag[0]='2';
 	start_irq();
 	printf("Input 'q' to exit.\n\r");
-	printf("hello world.\n\r");
 	char g = '0';
 	int i=0;
 	int cl,x,y;
